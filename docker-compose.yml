@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  node:
+    build:
+      context: ./node
+    container_name: node
+    entrypoint: wait-for db:3306 -t 20 -- ./start.sh
+    networks:
+      - desafio2-network
+    volumes:
+      - ./node:/usr/src/app
+    tty: true
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./db/scripts:/docker-entrypoint-initdb.d/
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - desafio2-network
+    ports:
+      - "3306:3306"
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    networks:
+      - desafio2-network
+    ports:
+      - "8080:80"
+    depends_on:
+      - node
+
+
+networks:
+  desafio2-network:
+    driver: bridge
