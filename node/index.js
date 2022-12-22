@@ -25,12 +25,10 @@ app.get('/', (req,res) => {
 
     connection.query('SELECT name FROM people', (err, result) => {
         if (err) throw err;
-        console.log(result);
         let message = `<h1>Full Cycle Rocks!</h1>
         <p>- Lista de nomes cadastrada no banco de dados</p>
         <ul>`;
         result.forEach(element => {
-            console.log(element);
             message += `<li>${element.name}</li>`;
         });
         message += '</ul>';
