@@ -17,4 +17,4 @@ Após clonar o projeto, navegue pelo terminal até a pasta com os arquivos e fa�
 docker-compose up --build
 ```
 
-Em seguida, vá ao seu navegador e acesse `http://localhost:8080
+Em seguida, vá ao seu navegador e acesse `http://localhost:8080`
